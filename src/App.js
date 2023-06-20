@@ -1,23 +1,30 @@
-import logo from './logo.svg';
+
 import './App.css';
+import { useEffect, useState } from 'react';
+
+
 
 function App() {
+const [count,setCount]=useState([])
+useEffect(()=>{
+  fetch('https://jsonplaceholder.typicode.com/posts')
+  .then(response => response.json())
+  .then(count => setCount(count.splice(0,10)))
+  .catch(console.error("error"))
+  console.log(count);
+
+},[]);
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <h1>Fetch data</h1>
+   {count.map((quote) => (
+    <div key={quote.id}>
+        <h1 style={{backgroundColor:"aqua"}} >{quote.title}</h1>
+        <h3 style={{backgroundColor:"yellow"}}>{quote.body}</h3>
+        </div>
+      ))}
     </div>
   );
 }
